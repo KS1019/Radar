@@ -69,6 +69,7 @@ class HomeViewController: UIViewController, CBCentralManagerDelegate {
     {
         println("peripheral: \(peripheral)")
         self.centralManager.stopScan()
+        
     }
 
 }
