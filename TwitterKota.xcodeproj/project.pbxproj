@@ -18,6 +18,7 @@
 		7C3780561BBFBDBE009BCD89 /* TwitterKitResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 7C3780521BBFBDBE009BCD89 /* TwitterKitResources.bundle */; };
 		7C3780571BBFBDBE009BCD89 /* TwitterCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7C3780531BBFBDBE009BCD89 /* TwitterCore.framework */; };
 		7C3780591BBFC16B009BCD89 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C3780581BBFC16B009BCD89 /* HomeViewController.swift */; };
+		D7CA098EB32FED5BE5985D57 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 75D1C3C641017FA8F97D2124 /* libPods.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -31,6 +32,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1B161D2929E9E2156C23CD40 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
+		6611693F90B51A62DB30BCF9 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
+		75D1C3C641017FA8F97D2124 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		7C37802A1BBFBD66009BCD89 /* TwitterKota.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TwitterKota.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7C37802E1BBFBD66009BCD89 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7C37802F1BBFBD66009BCD89 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -56,6 +60,7 @@
 				7C3780541BBFBDBE009BCD89 /* Fabric.framework in Frameworks */,
 				7C3780571BBFBDBE009BCD89 /* TwitterCore.framework in Frameworks */,
 				7C3780551BBFBDBE009BCD89 /* TwitterKit.framework in Frameworks */,
+				D7CA098EB32FED5BE5985D57 /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -69,6 +74,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		217EB1FABF6F04048F704AD4 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				1B161D2929E9E2156C23CD40 /* Pods.debug.xcconfig */,
+				6611693F90B51A62DB30BCF9 /* Pods.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		7C3780211BBFBD66009BCD89 = {
 			isa = PBXGroup;
 			children = (
@@ -79,6 +93,8 @@
 				7C37802C1BBFBD66009BCD89 /* TwitterKota */,
 				7C3780421BBFBD66009BCD89 /* TwitterKotaTests */,
 				7C37802B1BBFBD66009BCD89 /* Products */,
+				217EB1FABF6F04048F704AD4 /* Pods */,
+				DF6B79C9C37C1E16EDB2F0EE /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -130,6 +146,14 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		DF6B79C9C37C1E16EDB2F0EE /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				75D1C3C641017FA8F97D2124 /* libPods.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -137,10 +161,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 7C3780491BBFBD66009BCD89 /* Build configuration list for PBXNativeTarget "TwitterKota" */;
 			buildPhases = (
+				3FDA349300C26585AF23DB79 /* Check Pods Manifest.lock */,
 				7C3780261BBFBD66009BCD89 /* Sources */,
 				7C3780271BBFBD66009BCD89 /* Frameworks */,
 				7C3780281BBFBD66009BCD89 /* Resources */,
 				7C37804F1BBFBD98009BCD89 /* ShellScript */,
+				1DEB5DA3218793361FA0DDFD /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -228,6 +254,36 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		1DEB5DA3218793361FA0DDFD /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		3FDA349300C26585AF23DB79 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
 		7C37804F1BBFBD98009BCD89 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -375,6 +431,7 @@
 		};
 		7C37804A1BBFBD66009BCD89 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 1B161D2929E9E2156C23CD40 /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -389,6 +446,7 @@
 		};
 		7C37804B1BBFBD66009BCD89 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6611693F90B51A62DB30BCF9 /* Pods.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -454,6 +512,7 @@
 				7C37804B1BBFBD66009BCD89 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		7C37804C1BBFBD66009BCD89 /* Build configuration list for PBXNativeTarget "TwitterKotaTests" */ = {
 			isa = XCConfigurationList;
@@ -462,6 +521,7 @@
 				7C37804E1BBFBD66009BCD89 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
