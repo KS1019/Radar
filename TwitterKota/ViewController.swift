@@ -17,7 +17,10 @@ class ViewController: UIViewController {
             session, error in
             if session != nil {
                 println(session!.userName)
-                // ログイン成功したらクソ遷移する
+                // ログイン成功したら遷移する
+                let homeVC = HomeViewController()
+                UIApplication.sharedApplication().keyWindow?.rootViewController = homeVC
+                self.dismissViewControllerAnimated(true, completion:nil)
             } else {
                 println(error!.localizedDescription)
                 self.dismissViewControllerAnimated(true, completion:nil)
