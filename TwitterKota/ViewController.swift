@@ -15,15 +15,18 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         let loginButton = TWTRLogInButton(logInCompletion: {
             session, error in
+            let userSession = session
+            let userData : NSData = NSKeyedArchiver.archivedDataWithRootObject(userSession!);
             if session != nil {
                 println(session!.userName)
                 // ログイン成功したら遷移する
-                let homeVC = HomeViewController()
-                UIApplication.sharedApplication().keyWindow?.rootViewController = homeVC
-                self.dismissViewControllerAnimated(true, completion:nil)
+                let loginDefaults = NSUserDefaults.standardUserDefaults()
+                loginDefaults.setObject(userData, forKey: "USERSESSION")
+                loginDefaults.synchronize()
+                self.dismissViewControllerAnimated(false, completion: nil)
             } else {
                 println(error!.localizedDescription)
-                self.dismissViewControllerAnimated(true, completion:nil)
+                //self.performSegueWithIdentifier("toHome", sender: nil)
             }
         })
         loginButton.center = self.view.center
