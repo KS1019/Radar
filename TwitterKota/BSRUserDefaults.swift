@@ -50,9 +50,19 @@ class BSRUserDefaults: NSObject {
     }
     
     class func addEncounterWithName(username : String)(date : NSDate) {
-        if !count(username) || !date {
-            
-        }}
+        if count(username) == 0  {
+            print(date)
+            if count(date.description) == 0 {
+                return
+            }
+        }
+        
+        // TODO: うまくいくか確認
+        var encounters: NSMutableArray = NSMutableArray()
+        encounters = self.encounters().mutableCopy() as! NSMutableArray
+        encounters.addObject([kEncouterDictionaryKeyUsername: username, kEncouterDictionaryKeyDate: date])
+        self.setEncounters(encounters)
+    }
 }
 
 

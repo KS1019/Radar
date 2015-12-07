@@ -98,7 +98,7 @@ class HomeViewController: UIViewController{
     
     func isLogin() -> Bool{
         let userDefaults = NSUserDefaults.standardUserDefaults()
-        let loginStatus = userDefaults.objectForKey("USERSESSION")
+        let loginStatus: AnyObject? = userDefaults.objectForKey("USERSESSION")
         if loginStatus != nil {
             return true
             
