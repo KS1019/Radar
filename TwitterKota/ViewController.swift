@@ -18,14 +18,14 @@ class ViewController: UIViewController {
             let userSession = session
             let userData : NSData = NSKeyedArchiver.archivedDataWithRootObject(userSession!);
             if session != nil {
-                println(session!.userName)
+                print(session!.userName)
                 // ログイン成功したら遷移する
                 let loginDefaults = NSUserDefaults.standardUserDefaults()
                 loginDefaults.setObject(userData, forKey: "USERSESSION")
                 loginDefaults.synchronize()
                 self.dismissViewControllerAnimated(false, completion: nil)
             } else {
-                println(error!.localizedDescription)
+                print(error!.localizedDescription)
                 //self.performSegueWithIdentifier("toHome", sender: nil)
             }
         })

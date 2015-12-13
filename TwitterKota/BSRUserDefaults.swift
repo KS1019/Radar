@@ -50,9 +50,9 @@ class BSRUserDefaults: NSObject {
     }
     
     class func addEncounterWithName(username : String)(date : NSDate) {
-        if count(username) == 0  {
-            print(date)
-            if count(date.description) == 0 {
+        if username.characters.count == 0  {
+            print(date, terminator: "")
+            if date.description.characters.count == 0 {
                 return
             }
         }

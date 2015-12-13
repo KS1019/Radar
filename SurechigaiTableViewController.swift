@@ -42,7 +42,7 @@ class SurechigaiTableViewController: UITableViewController {
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let CellIdentifier : String = "Cell";
-        let cell = tableView.dequeueReusableCellWithIdentifier(CellIdentifier, forIndexPath: indexPath) as! UITableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier(CellIdentifier, forIndexPath: indexPath) 
        // var encounterDic : Dictionary = items[indexPath.row] as Dictionary
     //cell.textLabel?.text = encounterDic.
         // Configure the cell...

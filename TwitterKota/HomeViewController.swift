@@ -35,19 +35,19 @@ class HomeViewController: UIViewController{
         
         if  self.isLogin() {
             let userSession = NSKeyedUnarchiver.unarchiveObjectWithData(userDefaultOfSession.objectForKey("USERSESSION") as! NSData) as! TWTRSession
-            println("Segue is failed \(userSession.userName)")
+            print("Segue is failed \(userSession.userName)")
             self.label.text = "Signed as \(userSession.userName)"
             userID = userSession.userID
         }else{
             self.performSegueWithIdentifier("toLogin", sender: nil)
-            println("Segue is successful ")
+            print("Segue is successful ")
         }
         
         
     }
     
-    override func observeValueForKeyPath(keyPath: String, ofObject object: AnyObject, change: [NSObject : AnyObject], context: UnsafeMutablePointer<Void>) {
-        println("observer is called")
+    override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
+        print("observer is called")
         if userID == "---" {
             self.login()
         }
@@ -65,10 +65,10 @@ class HomeViewController: UIViewController{
             self.label.text = "\(userName)"
             userID = "---"
              var valueOfUserID : NSString = userID
-            println("Logout is succesful")
+            print("Logout is succesful")
             self.performSegueWithIdentifier("toLogin", sender: nil)
         }else{
-                println("Logout is failed")
+                print("Logout is failed")
             }
 //        logoutClass.logout()
         }
