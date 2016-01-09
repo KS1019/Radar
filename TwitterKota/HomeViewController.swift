@@ -64,8 +64,8 @@ class HomeViewController: UIViewController{
             let userName = ""
             self.label.text = "\(userName)"
             userID = "---"
-             var valueOfUserID : NSString = userID
-            print("Logout is succesful")
+             let valueOfUserID : NSString = userID
+            print("Logout is succesful -> \(valueOfUserID)")
             self.performSegueWithIdentifier("toLogin", sender: nil)
         }else{
                 print("Logout is failed")

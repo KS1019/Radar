@@ -17,10 +17,24 @@ class BSRPeripheralManager: NSObject, CBPeripheralManagerDelegate {
     var serviceUUID : CBUUID = CBUUID()
     var characteristicUUIDRead : CBUUID = CBUUID()
     var characteristicUUIDWrite : CBUUID = CBUUID()
-    var characteristicRead : CBMutableCharacteristic = CBMutableCharacteristic()
-    var characteristicWrite : CBMutableCharacteristic = CBMutableCharacteristic()
+    var characteristicRead : CBMutableCharacteristic //= CBMutableCharacteristic()
+    var characteristicWrite : CBMutableCharacteristic //= CBMutableCharacteristic()
     
     override init() {
+        // Encounter Read キャラクタリスティックの生成
+        let properties: CBCharacteristicProperties = ([CBCharacteristicProperties.Read, CBCharacteristicProperties.Notify])
+        var permissions: CBAttributePermissions = .Readable
+        self.characteristicRead = CBMutableCharacteristic(type: self.characteristicUUIDRead, properties: properties, value: nil,
+            permissions: permissions)
+        
+        
+        let service: CBMutableService = CBMutableService(type: self.serviceUUID, primary: true)
+        // Encounter Write キャラクタリスティックの生成
+        permissions = .Writeable
+        self.characteristicWrite = CBMutableCharacteristic(type: self.characteristicUUIDWrite, properties: CBCharacteristicProperties.Write, value: nil, permissions: permissions)
+        service.characteristics = [self.characteristicRead, self.characteristicWrite]
+        self.peripheralManager.addService(service)
+        
         super.init()
         var delegate : BSREncounterDelegate
     }
@@ -63,8 +77,8 @@ class BSRPeripheralManager: NSObject, CBPeripheralManagerDelegate {
         if self.peripheralManager.isAdvertising {
             return
         }
-        var advertisementData: [NSObject : AnyObject] = [CBAdvertisementDataLocalNameKey: kLocalName, CBAdvertisementDataServiceUUIDsKey: [self.serviceUUID]]
-        self.peripheralManager.startAdvertising(advertisementData)
+        let advertisementData: [NSObject : AnyObject] = [CBAdvertisementDataLocalNameKey: kLocalName, CBAdvertisementDataServiceUUIDsKey: [self.serviceUUID]]
+        self.peripheralManager.startAdvertising(advertisementData as? [String : AnyObject])
     }
     
     func stopAdvertising() {
