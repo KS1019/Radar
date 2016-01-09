@@ -8,7 +8,7 @@
 
 import Foundation
 
-class  Constants {
+class Constants {
     class var kServiceUUIDEncounter : String {
         return "73C98F4C-F74F-4918-9B0A-5EF4C6C021C6"
     }

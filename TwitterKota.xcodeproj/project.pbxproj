@@ -20,6 +20,7 @@
 		7C3780561BBFBDBE009BCD89 /* TwitterKitResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 7C3780521BBFBDBE009BCD89 /* TwitterKitResources.bundle */; };
 		7C3780571BBFBDBE009BCD89 /* TwitterCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7C3780531BBFBDBE009BCD89 /* TwitterCore.framework */; };
 		7C3780591BBFC16B009BCD89 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C3780581BBFC16B009BCD89 /* HomeViewController.swift */; };
+		7C80531F1C40E87400F6A2D4 /* BSRCentralManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C80531E1C40E87400F6A2D4 /* BSRCentralManager.swift */; };
 		7CCD35F11C004CAF0097E830 /* SurechigaiTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CCD35F01C004CAF0097E830 /* SurechigaiTableViewController.swift */; };
 		7CCD35F71C005F940097E830 /* BSRUserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CCD35F61C005F940097E830 /* BSRUserDefaults.swift */; };
 		7CCD35F91C006AA90097E830 /* BSREncounterDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CCD35F81C006AA90097E830 /* BSREncounterDelegate.swift */; };
@@ -56,6 +57,7 @@
 		7C3780521BBFBDBE009BCD89 /* TwitterKitResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = TwitterKitResources.bundle; path = TwitterKit.framework/Versions/A/Resources/TwitterKitResources.bundle; sourceTree = "<group>"; };
 		7C3780531BBFBDBE009BCD89 /* TwitterCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = TwitterCore.framework; sourceTree = "<group>"; };
 		7C3780581BBFC16B009BCD89 /* HomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
+		7C80531E1C40E87400F6A2D4 /* BSRCentralManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BSRCentralManager.swift; path = ../BSRCentralManager.swift; sourceTree = "<group>"; };
 		7CCD35F01C004CAF0097E830 /* SurechigaiTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SurechigaiTableViewController.swift; path = ../SurechigaiTableViewController.swift; sourceTree = "<group>"; };
 		7CCD35F61C005F940097E830 /* BSRUserDefaults.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BSRUserDefaults.swift; sourceTree = "<group>"; };
 		7CCD35F81C006AA90097E830 /* BSREncounterDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BSREncounterDelegate.swift; sourceTree = "<group>"; };
@@ -120,12 +122,13 @@
 		7C37802C1BBFBD66009BCD89 /* TwitterKota */ = {
 			isa = PBXGroup;
 			children = (
+				7C13E04D1C008EA900B34C36 /* BSRConstants.swift */,
 				7C37802F1BBFBD66009BCD89 /* AppDelegate.swift */,
 				7C3780311BBFBD66009BCD89 /* ViewController.swift */,
 				7C3780581BBFC16B009BCD89 /* HomeViewController.swift */,
 				7CCD35F01C004CAF0097E830 /* SurechigaiTableViewController.swift */,
 				7C13E04B1C00810100B34C36 /* BSRPeripheralManager.swift */,
-				7C13E04D1C008EA900B34C36 /* BSRConstants.swift */,
+				7C80531E1C40E87400F6A2D4 /* BSRCentralManager.swift */,
 				7CCD35F61C005F940097E830 /* BSRUserDefaults.swift */,
 				7CCD35F81C006AA90097E830 /* BSREncounterDelegate.swift */,
 				7C3780331BBFBD66009BCD89 /* Main.storyboard */,
@@ -296,6 +299,7 @@
 			files = (
 				7C3780321BBFBD66009BCD89 /* ViewController.swift in Sources */,
 				7C13E04E1C008EA900B34C36 /* BSRConstants.swift in Sources */,
+				7C80531F1C40E87400F6A2D4 /* BSRCentralManager.swift in Sources */,
 				7CCD35F71C005F940097E830 /* BSRUserDefaults.swift in Sources */,
 				7CCD35F11C004CAF0097E830 /* SurechigaiTableViewController.swift in Sources */,
 				7C3780301BBFBD66009BCD89 /* AppDelegate.swift in Sources */,

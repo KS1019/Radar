@@ -8,11 +8,10 @@
 
 import UIKit
 
-class SurechigaiTableViewController: UITableViewController {
+class SurechigaiTableViewController: UITableViewController ,BSREncounterDelegate{
     var items = []
     override func viewDidLoad() {
         super.viewDidLoad()
-
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
@@ -25,7 +24,7 @@ class SurechigaiTableViewController: UITableViewController {
         // Dispose of any resources that can be recreated.
     }
 
-    // MARK: - Table view data source
+    // MARK: TableViewDataSource
 
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         // #warning Potentially incomplete method implementation.
@@ -46,9 +45,40 @@ class SurechigaiTableViewController: UITableViewController {
        // var encounterDic : Dictionary = items[indexPath.row] as Dictionary
     //cell.textLabel?.text = encounterDic.
         // Configure the cell...
-
+        var encounterDic: [NSObject : AnyObject] = self.items[indexPath.row] as! [NSObject : AnyObject]
+        cell.textLabel!.text = encounterDic[kEncouterDictionaryKeyUsername] as! String
+        cell.detailTextLabel.text = encounterDic[kEncouterDictionaryKeyDate] as! NSDate.descriptionWithLocale;(NSLocale.currentLocale())
         return cell
     
+    }
+    
+    // MARK: BSREncounterDelegate
+    func didEncounterUserWithName(username: String) {
+        dispatch_async(dispatch_get_main_queue(), {() -> Void in
+            // アラート表示
+            self.alertWithUsername(username)
+            // すれちがいリストに追加
+            BSRUserDefaults.addEncounterWithName(username, date: NSDate())
+            self.items = BSRUserDefaults.encounters()
+            self.tableView.reloadData()
+        })
+    }
+    
+    // MARK: Private
+    
+    func alertWithUsername(username: String) {
+        let msg: String = "\(username)とすれ違いました！"
+        // バックグラウンド時はローカル通知
+        if UIApplication.sharedApplication().applicationState != .Active {
+            let notification: UILocalNotification = UILocalNotification()
+            notification.alertBody = msg
+            notification.fireDate = NSDate()
+            notification.soundName = UILocalNotificationDefaultSoundName
+            UIApplication.sharedApplication().scheduleLocalNotification(notification)
+        }
+        else {
+            print(msg)
+        }
     }
 
     /*

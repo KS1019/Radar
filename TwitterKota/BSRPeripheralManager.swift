@@ -54,6 +54,12 @@ class BSRPeripheralManager: NSObject, CBPeripheralManagerDelegate {
     func initInstance() {
         let options : NSDictionary = ["CBCentralManagerOptionShowPowerAlertKey" : true,"CBPeripheralManagerOptionRestoreIdentifierKey" : Constants.kRestoreIdentifierKey]
         
+        self.peripheralManager = CBPeripheralManager.init(delegate: self, queue: nil, options: options as? [String : AnyObject])
+        self.serviceUUID = CBUUID(string: Constants.kServiceUUIDEncounter)
+        self.characteristicUUIDRead = CBUUID(string: Constants.kCharacteristicUUIDEncounterRead)
+        self.characteristicUUIDWrite = CBUUID(string: Constants.kCharacteristicUUIDEncounterWrite)
+        
+        
     }
     
     // MARK: Private
@@ -156,18 +162,51 @@ class BSRPeripheralManager: NSObject, CBPeripheralManagerDelegate {
 
     }
     
-//    func peripheralManager(peripheral: CBPeripheralManager!, didReceiveWriteRequests requests: [CBATTRequest]) {
-//        for aRequest: CBATTRequest in requests {
-//            NSLog("Requested value:%@ service uuid:%@ characteristic uuid:%@", aRequest.value, aRequest.characteristic.service.UUID, aRequest.characteristic.UUID)
-//            // CBCharacteristicのvalueに、CBATTRequestのvalueをセット
-//            self.characteristicWrite.value = aRequest.value
-//            // ViewControllerに移譲
-//           // var name:NSString = NSString(data: aRequest.value, encoding: NSUTF8StringEncoding)!
-//           // self.deleagte.didEncounterUserWithName(name)
-//        }
-//        // リクエストに応答
-//        self.peripheralManager.respondToRequest(requests[0], withResult: .Success)
-//
-//    }
+    func peripheralManager(peripheral: CBPeripheralManager, didReceiveWriteRequests requests: [CBATTRequest]) {
+        for aRequest: CBATTRequest in requests {
+            NSLog("Requested value:%@ service uuid:%@ characteristic uuid:%@", aRequest.value!, aRequest.characteristic.service.UUID, aRequest.characteristic.UUID)
+            // CBCharacteristicのvalueに、CBATTRequestのvalueをセット
+            self.characteristicWrite.value = aRequest.value
+            // ViewControllerに移譲
+            // var name:NSString = NSString(data: aRequest.value, encoding: NSUTF8StringEncoding)!
+            // self.deleagte.didEncounterUserWithName(name)
+        }
+        // リクエストに応答
+        self.peripheralManager.respondToRequest(requests[0], withResult: .Success)
+        
+    }
+    
+    func peripheralManager(peripheral: CBPeripheralManager, central: CBCentral, didSubscribeToCharacteristic characteristic: CBCharacteristic) {
+        
+    }
+    
+    func peripheralManager(peripheral: CBPeripheralManager, central: CBCentral, didUnsubscribeFromCharacteristic characteristic: CBCharacteristic) {
+        
+    }
+    
+    func peripheralManagerIsReadyToUpdateSubscribers(peripheral: CBPeripheralManager) {
+        print("peripheralManagerIsReadyToUpdateSubscribers")
+    }
+    
+    func peripheralManager(peripheral: CBPeripheralManager, willRestoreState dict: [String : AnyObject]) {
+        
+        if let services = dict[CBPeripheralManagerRestoredStateServicesKey]{
+            
+            for var aService : CBMutableService in services as! [CBMutableService] {
+                for var aCharacteristic : CBMutableCharacteristic in aService.characteristics as! [CBMutableCharacteristic] {
+                    
+                    if (aCharacteristic.UUID .isEqual(self.characteristicUUIDRead)) {
+                        self.characteristicRead = aCharacteristic
+                    }
+                        
+                    else if (aCharacteristic.UUID .isEqual(self.characteristicUUIDWrite)){
+                        
+                        self.characteristicWrite = aCharacteristic
+                        
+                    }
+                }
+            }
+        }
+    }
 }
 

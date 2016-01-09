@@ -11,3 +11,8 @@ import Foundation
 public protocol BSREncounterDelegate{
 func didEncounterUserWithName(username : String)
 }
+
+class BSREncounter{
+    var delegate : BSREncounterDelegate?
+}
+
