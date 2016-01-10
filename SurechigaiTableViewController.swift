@@ -46,7 +46,7 @@ class SurechigaiTableViewController: UITableViewController ,BSREncounterDelegate
     //cell.textLabel?.text = encounterDic.
         // Configure the cell...
         var encounterDic: [NSObject : AnyObject] = self.items[indexPath.row] as! [NSObject : AnyObject]
-        cell.textLabel!.text = encounterDic[kEncouterDictionaryKeyUsername] as! String
+        cell.textLabel!.text = encounterDic[kEncouterDictionaryKeyUsername] as? String
         cell.detailTextLabel.text = encounterDic[kEncouterDictionaryKeyDate] as! NSDate.descriptionWithLocale;(NSLocale.currentLocale())
         return cell
     
