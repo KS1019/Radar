@@ -58,7 +58,7 @@ class SurechigaiTableViewController: UITableViewController ,BSREncounterDelegate
             // アラート表示
             self.alertWithUsername(username)
             // すれちがいリストに追加
-            BSRUserDefaults.addEncounterWithName(username, date: NSDate())
+            //BSRUserDefaults.addEncounterWithName(username, date: NSDate())
             self.items = BSRUserDefaults.encounters()
             self.tableView.reloadData()
         })
