@@ -64,10 +64,10 @@
             </objects>
             <point key="canvasLocation" x="1131.5" y="265.5"/>
         </scene>
-        <!--Table View Controller-->
+        <!--Surechigai Table View Controller-->
         <scene sceneID="PDT-64-9Ch">
             <objects>
-                <tableViewController id="uvM-9H-nvb" sceneMemberID="viewController">
+                <tableViewController id="uvM-9H-nvb" customClass="SurechigaiTableViewController" customModule="TwitterKota" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="v9A-6S-bRt">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

@@ -10,7 +10,7 @@ import UIKit
 import CoreBluetooth
 
 
-class BSRCentralManager: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate,BSREncounterDelegate {
+class BSRCentralManager: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate{
     
     var centralManager : CBCentralManager
     var peripherals : NSMutableArray = []
