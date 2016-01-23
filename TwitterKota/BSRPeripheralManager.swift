@@ -27,13 +27,12 @@ class BSRPeripheralManager: NSObject, CBPeripheralManagerDelegate {
         self.characteristicRead = CBMutableCharacteristic(type: self.characteristicUUIDRead, properties: properties, value: nil,
             permissions: permissions)
         
-        
         let service: CBMutableService = CBMutableService(type: self.serviceUUID, primary: true)
         // Encounter Write キャラクタリスティックの生成
         permissions = .Writeable
         self.characteristicWrite = CBMutableCharacteristic(type: self.characteristicUUIDWrite, properties: CBCharacteristicProperties.Write, value: nil, permissions: permissions)
         service.characteristics = [self.characteristicRead, self.characteristicWrite]
-        self.peripheralManager.addService(service)
+//        self.peripheralManager.addService(service)
         
         super.init()
         var delegate : BSREncounterDelegate
@@ -95,9 +94,11 @@ class BSRPeripheralManager: NSObject, CBPeripheralManagerDelegate {
     
     // MARK: Public
     func updateUsername() {
+        print("updateUsername")
         if self.characteristicRead.description.characters.count == 0 {
             print("Failed", terminator: "")
         }else{
+            print("else in updateUsername")
             return
         }
         

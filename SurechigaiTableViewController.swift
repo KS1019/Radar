@@ -28,16 +28,18 @@ class SurechigaiTableViewController: UITableViewController ,BSREncounterDelegate
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         // ユーザー名が未決定であればユーザー名入力画面を表示する
-        if (BSRUserDefaults.username().characters.count == 0) {
-            self.performSegueWithIdentifier("ShowSetting", sender: self)
-        }
-        else {
+        print("View appeared")
+//        if (BSRUserDefaults.username().characters.count == 0) {
+//            print("if was called")
+//            //self.performSegueWithIdentifier("ShowSetting", sender: self)
+//        } else {
+            print("else was called")
             // セントラル側は初期化＆スキャン開始する
-//            BSRCentralManager.sharedManager().d = self
+            // BSRCentralManager.sharedManager().d = self
             // ペリフェラル側はキャラクタリスティックを更新する
             BSRPeripheralManager.sharedManager().updateUsername()
             NSLog("Start with username: %@", BSRUserDefaults.username())
-        }
+        //}
     }
     
     // MARK: TableViewDataSource

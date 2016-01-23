@@ -37,6 +37,7 @@ class HomeViewController: UIViewController{
             let userSession = NSKeyedUnarchiver.unarchiveObjectWithData(userDefaultOfSession.objectForKey("USERSESSION") as! NSData) as! TWTRSession
             print("Segue is failed \(userSession.userName)")
             self.label.text = "Signed as \(userSession.userName)"
+            BSRUserDefaults.setUsername("\(userSession.userName)")
             userID = userSession.userID
         }else{
             self.performSegueWithIdentifier("toLogin", sender: nil)

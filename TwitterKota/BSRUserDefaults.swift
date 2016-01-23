@@ -31,8 +31,11 @@ class BSRUserDefaults: NSObject {
     
     class func username() -> String {
         
-        return Defaults.stringForKey(kUserDefaultsKeyUsername)!
-        
+        print(Defaults.stringForKey(kUserDefaultsKeyUsername)!)
+        if Defaults.stringForKey(kUserDefaultsKeyUsername) != nil {
+            return Defaults.stringForKey(kUserDefaultsKeyUsername)!
+        }
+        return ""
     }
     
     class func setUsername(username : String) {
