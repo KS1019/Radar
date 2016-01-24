@@ -18,6 +18,7 @@ class BSRCentralManager: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
     var characteristicUUIDRead : CBUUID
     var characteristicUUIDWrite : CBUUID
     var bsrEncounter : BSREncounter!
+    var delegate: BSREncounterDelegate?
     
     override init(){
         centralManager = CBCentralManager()
@@ -29,12 +30,12 @@ class BSRCentralManager: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
     }
     
     
-    class func sharedManager() -> BSRPeripheralManager {
-        var instance : BSRPeripheralManager!
+    class func sharedManager() -> BSRCentralManager {
+        var instance : BSRCentralManager!
         var token = dispatch_once_t()
         
         dispatch_once(&token, {
-            instance = BSRPeripheralManager()
+            instance = BSRCentralManager()
             instance.initInstance()
         })
         return instance;
@@ -58,11 +59,9 @@ class BSRCentralManager: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
         for aService : CBService in peripheral.services! {
             for aCharacteristic : CBCharacteristic in aService.characteristics! {
                 if (aCharacteristic.UUID .isEqual(self.characteristicUUIDWrite)){
-                    
                     // ペリフェラルに情報を送る（Writeする）
                     peripheral.writeValue(data, forCharacteristic: aCharacteristic, type: CBCharacteristicWriteType.WithResponse)
                     break
-                    
                 }
             }
         }
@@ -98,7 +97,6 @@ class BSRCentralManager: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
     }
     
     func centralManager(central: CBCentralManager, didConnectPeripheral peripheral: CBPeripheral) {
-        
         print("peripheral:\(peripheral)")
         
         peripheral.delegate = self

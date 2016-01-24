@@ -27,6 +27,11 @@ let kDefaultUsername : String = "名無しさん"
 class BSRUserDefaults: NSObject {
     override init() {
         super.init()
+        if Defaults.objectForKey(kUserDefaultsEncounters) == nil {
+            print("BSRUserDefaults init")
+            let array : NSMutableArray = []
+            Defaults.setObject((array), forKey: kUserDefaultsEncounters)
+        }
     }
     
     class func username() -> String {

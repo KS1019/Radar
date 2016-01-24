@@ -32,7 +32,7 @@ class BSRPeripheralManager: NSObject, CBPeripheralManagerDelegate {
         permissions = .Writeable
         self.characteristicWrite = CBMutableCharacteristic(type: self.characteristicUUIDWrite, properties: CBCharacteristicProperties.Write, value: nil, permissions: permissions)
         service.characteristics = [self.characteristicRead, self.characteristicWrite]
-//        self.peripheralManager.addService(service)
+        //        self.peripheralManager.addService(service)
         
         super.init()
         var delegate : BSREncounterDelegate
@@ -160,7 +160,7 @@ class BSRPeripheralManager: NSObject, CBPeripheralManagerDelegate {
         request.value = self.characteristicRead.value
         // リクエストに応答
         self.peripheralManager.respondToRequest(request, withResult: .Success)
-
+        
     }
     
     func peripheralManager(peripheral: CBPeripheralManager, didReceiveWriteRequests requests: [CBATTRequest]) {

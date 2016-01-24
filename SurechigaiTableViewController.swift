@@ -13,6 +13,12 @@ class SurechigaiTableViewController: UITableViewController ,BSREncounterDelegate
     override func viewDidLoad() {
         super.viewDidLoad()
         print("Start Searching")
+        if Defaults.objectForKey(kUserDefaultsEncounters) == nil {
+            print("Defaults init in SurechigaiTableViewController")
+            let array : NSMutableArray = []
+            Defaults.setObject((array), forKey: kUserDefaultsEncounters)
+        }
+        self.items = BSRUserDefaults.encounters()
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
         
@@ -27,19 +33,13 @@ class SurechigaiTableViewController: UITableViewController ,BSREncounterDelegate
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        // ユーザー名が未決定であればユーザー名入力画面を表示する
         print("View appeared")
-//        if (BSRUserDefaults.username().characters.count == 0) {
-//            print("if was called")
-//            //self.performSegueWithIdentifier("ShowSetting", sender: self)
-//        } else {
-            print("else was called")
-            // セントラル側は初期化＆スキャン開始する
-            // BSRCentralManager.sharedManager().d = self
-            // ペリフェラル側はキャラクタリスティックを更新する
-            BSRPeripheralManager.sharedManager().updateUsername()
-            NSLog("Start with username: %@", BSRUserDefaults.username())
-        //}
+        // セントラル側は初期化＆スキャン開始する
+        BSRCentralManager.sharedManager().delegate = self
+        // ペリフェラル側はキャラクタリスティックを更新する
+        BSRPeripheralManager.sharedManager().updateUsername()
+        NSLog("Start with username: %@", BSRUserDefaults.username())
+        
     }
     
     // MARK: TableViewDataSource
@@ -62,7 +62,7 @@ class SurechigaiTableViewController: UITableViewController ,BSREncounterDelegate
         let cell = tableView.dequeueReusableCellWithIdentifier(CellIdentifier, forIndexPath: indexPath)
         // var encounterDic : Dictionary = items[indexPath.row] as Dictionary
         //cell.textLabel?.text = encounterDic.
-        // Configure the cell...
+
         var encounterDic: [NSObject : AnyObject] = self.items[indexPath.row] as! [NSObject : AnyObject]
         cell.textLabel!.text = encounterDic[kEncouterDictionaryKeyUsername] as? String
         //cell.detailTextLabel.text = encounterDic[kEncouterDictionaryKeyDate] as! NSDate.descriptionWithLocale;(NSLocale.currentLocale())
@@ -72,11 +72,14 @@ class SurechigaiTableViewController: UITableViewController ,BSREncounterDelegate
     
     // MARK: BSREncounterDelegate
     func didEncounterUserWithName(username: String) {
+        print("didEncounterUserWithName")
         dispatch_async(dispatch_get_main_queue(), {() -> Void in
             // アラート表示
             self.alertWithUsername(username)
+            print("\(username)とすれ違いました。")
             // すれちがいリストに追加
-            //BSRUserDefaults.addEncounterWithName(username, date: NSDate())
+            let date = NSDate()
+            BSRUserDefaults.addEncounterWithName(username)(date:date)
             self.items = BSRUserDefaults.encounters()
             self.tableView.reloadData()
         })
