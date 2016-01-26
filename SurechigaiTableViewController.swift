@@ -52,7 +52,6 @@ class SurechigaiTableViewController: UITableViewController ,BSREncounterDelegate
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete method implementation.
-        // Return the number of rows in the section.
         return self.items.count
     }
     
