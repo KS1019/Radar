@@ -31,6 +31,7 @@ class BSRCentralManager: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
     
     
     class func sharedManager() -> BSRCentralManager {
+        print(__FUNCTION__)
         var instance : BSRCentralManager!
         var token = dispatch_once_t()
         
@@ -42,6 +43,7 @@ class BSRCentralManager: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
     }
     
     func initInstance() {
+        print(__FUNCTION__)
         let options : NSDictionary = ["CBCentralManagerOptionShowPowerAlertKey" : true]
         self.centralManager = CBCentralManager.init(delegate: self, queue: nil, options: options as? [String : AnyObject])
         
@@ -55,7 +57,7 @@ class BSRCentralManager: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
     // MARK: Private
     
     func writeData(data: NSData, peripheral: CBPeripheral) {
-        
+        print(__FUNCTION__)
         for aService : CBService in peripheral.services! {
             for aCharacteristic : CBCharacteristic in aService.characteristics! {
                 if (aCharacteristic.UUID .isEqual(self.characteristicUUIDWrite)){
@@ -70,11 +72,12 @@ class BSRCentralManager: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
     // MARK: CBCentralManagerDelegate
     
     func centralManagerDidUpdateState(central: CBCentralManager) {
-        
+        print(__FUNCTION__)
         print("Updated state:\(central.state)")
         
         switch central.state {
         case CBCentralManagerState.PoweredOn:
+            print("スキャン開始\(__FUNCTION__)")
             self.centralManager.scanForPeripheralsWithServices(nil, options: nil)
             break
         default:
@@ -83,7 +86,7 @@ class BSRCentralManager: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
     }
     
     func centralManager(central: CBCentralManager, didDiscoverPeripheral peripheral: CBPeripheral, advertisementData: [String : AnyObject], RSSI: NSNumber) {
-        
+        print(__FUNCTION__)
         print("\nperipheral:\(peripheral) \nadvertisementData:\(advertisementData) \nRSSI\(RSSI)")
         
         // 配列に保持
@@ -189,7 +192,10 @@ class BSRCentralManager: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
         // 相手のユーザー名が入っていて、自分のユーザー名も入力済みのときのみすれちがい処理を行う
         //        if /*username.characters.count !=  nil && */myUsername.characters.count != nil {
         // 結果表示処理をViewControllerに移譲
-        self.bsrEncounter.delegate!.didEncounterUserWithName(username)
+        self.delegate?.didEncounterUserWithName(username)
+        if delegate?.didEncounterUserWithName(username) == nil {
+            print("didEncounterUserWithName(username) is nil")
+        }
         // 自分のユーザー名をペリフェラル側に伝える
         let data: NSData = myUsername.dataUsingEncoding(NSUTF8StringEncoding)!
         self.writeData(data, peripheral: peripheral)
@@ -225,8 +231,6 @@ class BSRCentralManager: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
         }
     }
     
-    func didEncounterUserWithName(username: String) {
-        
-    }
+
     
 }

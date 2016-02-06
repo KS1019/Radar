@@ -13,6 +13,10 @@ func didEncounterUserWithName(username : String)
 }
 
 class BSREncounter{
-    var delegate : BSREncounterDelegate?
+    weak var deleagte : AnyObject?
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 }
 

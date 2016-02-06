@@ -33,6 +33,8 @@ class SurechigaiTableViewController: UITableViewController ,BSREncounterDelegate
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
+        print(__FUNCTION__)
+        
         print("View appeared")
         // セントラル側は初期化＆スキャン開始する
         BSRCentralManager.sharedManager().delegate = self
@@ -72,6 +74,7 @@ class SurechigaiTableViewController: UITableViewController ,BSREncounterDelegate
     // MARK: BSREncounterDelegate
     func didEncounterUserWithName(username: String) {
         print("didEncounterUserWithName")
+        print(__FUNCTION__)
         dispatch_async(dispatch_get_main_queue(), {() -> Void in
             // アラート表示
             self.alertWithUsername(username)
@@ -87,6 +90,7 @@ class SurechigaiTableViewController: UITableViewController ,BSREncounterDelegate
     // MARK: Private
     
     func alertWithUsername(username: String) {
+        print(__FUNCTION__)
         let msg: String = "\(username)とすれ違いました！"
         // バックグラウンド時はローカル通知
         if UIApplication.sharedApplication().applicationState != .Active {

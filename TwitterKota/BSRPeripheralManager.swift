@@ -9,7 +9,7 @@
 import UIKit
 import CoreBluetooth
 
-class BSRPeripheralManager: NSObject, CBPeripheralManagerDelegate {
+class BSRPeripheralManager: NSObject, CBPeripheralManagerDelegate{
     
     let kLocalName : NSString = "Surechigai"
     
@@ -19,7 +19,8 @@ class BSRPeripheralManager: NSObject, CBPeripheralManagerDelegate {
     var characteristicUUIDWrite : CBUUID = CBUUID()
     var characteristicRead : CBMutableCharacteristic //= CBMutableCharacteristic()
     var characteristicWrite : CBMutableCharacteristic //= CBMutableCharacteristic()
-    
+    var delegate : BSREncounterDelegate?
+
     override init() {
         // Encounter Read キャラクタリスティックの生成
         let properties: CBCharacteristicProperties = ([CBCharacteristicProperties.Read, CBCharacteristicProperties.Notify])
@@ -33,12 +34,9 @@ class BSRPeripheralManager: NSObject, CBPeripheralManagerDelegate {
         self.characteristicWrite = CBMutableCharacteristic(type: self.characteristicUUIDWrite, properties: CBCharacteristicProperties.Write, value: nil, permissions: permissions)
         service.characteristics = [self.characteristicRead, self.characteristicWrite]
         //        self.peripheralManager.addService(service)
-        
         super.init()
-        var delegate : BSREncounterDelegate
     }
     //Swift
-    
     class func sharedManager() -> BSRPeripheralManager {
         var instance : BSRPeripheralManager!
         var token = dispatch_once_t()
@@ -51,7 +49,7 @@ class BSRPeripheralManager: NSObject, CBPeripheralManagerDelegate {
     }
     
     func initInstance() {
-        let options : NSDictionary = ["CBCentralManagerOptionShowPowerAlertKey" : true,"CBPeripheralManagerOptionRestoreIdentifierKey" : Constants.kRestoreIdentifierKey]
+        let options : NSDictionary = ["CBCentralManagerOptionShowPowerAlertKey" : true, "CBPeripheralManagerOptionRestoreIdentifierKey" : Constants.kRestoreIdentifierKey]
         
         self.peripheralManager = CBPeripheralManager.init(delegate: self, queue: nil, options: options as? [String : AnyObject])
         self.serviceUUID = CBUUID(string: Constants.kServiceUUIDEncounter)
@@ -99,14 +97,14 @@ class BSRPeripheralManager: NSObject, CBPeripheralManagerDelegate {
             print("Failed", terminator: "")
         }else{
             print("else in updateUsername")
-            return
+            //return
         }
         
         // ユーザー名がまだなければ更新しない
         if BSRUserDefaults.username().characters.count == 0 {
             print("Failed", terminator: "")
         }else{
-            return
+            //return
         }
         let data: NSData = BSRUserDefaults.username().dataUsingEncoding(NSUTF8StringEncoding)!
         // valueを更新
@@ -169,8 +167,12 @@ class BSRPeripheralManager: NSObject, CBPeripheralManagerDelegate {
             // CBCharacteristicのvalueに、CBATTRequestのvalueをセット
             self.characteristicWrite.value = aRequest.value
             // ViewControllerに移譲
-            // var name:NSString = NSString(data: aRequest.value, encoding: NSUTF8StringEncoding)!
-            // self.deleagte.didEncounterUserWithName(name)
+            let name = NSString(data: aRequest.value!, encoding: NSUTF8StringEncoding)! as String
+            self.delegate?.didEncounterUserWithName(name)
+            if delegate?.didEncounterUserWithName(name) == nil {
+                print("didEncounterUserWithName(name) is nil")
+            }
+
         }
         // リクエストに応答
         self.peripheralManager.respondToRequest(requests[0], withResult: .Success)
@@ -190,7 +192,7 @@ class BSRPeripheralManager: NSObject, CBPeripheralManagerDelegate {
     }
     
     func peripheralManager(peripheral: CBPeripheralManager, willRestoreState dict: [String : AnyObject]) {
-        
+        print(__FUNCTION__)
         if let services = dict[CBPeripheralManagerRestoredStateServicesKey]{
             
             for var aService : CBMutableService in services as! [CBMutableService] {
