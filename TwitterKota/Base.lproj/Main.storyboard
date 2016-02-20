@@ -29,17 +29,6 @@
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GOv-11-Nva">
-                                <rect key="frame" x="82" y="502" width="210" height="157"/>
-                                <color key="backgroundColor" red="0.1764705882" green="0.6588235294" blue="0.4941176471" alpha="1" colorSpace="calibratedRGB"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="40"/>
-                                <state key="normal" title="Logout">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="logout" destination="OTJ-vP-ZJG" eventType="touchUpInside" id="n0R-cB-aff"/>
-                                </connections>
-                            </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Svb-yn-rTC">
                                 <rect key="frame" x="128" y="270" width="118" height="128"/>
                                 <color key="backgroundColor" red="0.0078431377190000002" green="0.65882354970000001" blue="0.9529411793" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -49,6 +38,17 @@
                                 </state>
                                 <connections>
                                     <segue destination="uvM-9H-nvb" kind="presentation" id="MOW-d1-tog"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GOv-11-Nva">
+                                <rect key="frame" x="112" y="497" width="150" height="150"/>
+                                <color key="backgroundColor" red="0.1764705882" green="0.6588235294" blue="0.4941176471" alpha="1" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="40"/>
+                                <state key="normal" title="Logout">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="logout" destination="OTJ-vP-ZJG" eventType="touchUpInside" id="n0R-cB-aff"/>
                                 </connections>
                             </button>
                         </subviews>

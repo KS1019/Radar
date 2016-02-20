@@ -12,6 +12,7 @@ class SurechigaiTableViewController: UITableViewController ,BSREncounterDelegate
     var items = []
     override func viewDidLoad() {
         super.viewDidLoad()
+        print(__FUNCTION__)
         print("Start Searching")
         if Defaults.objectForKey(kUserDefaultsEncounters) == nil {
             print("Defaults init in SurechigaiTableViewController")
@@ -37,7 +38,7 @@ class SurechigaiTableViewController: UITableViewController ,BSREncounterDelegate
         
         print("View appeared")
         // セントラル側は初期化＆スキャン開始する
-        BSRCentralManager.sharedManager().delegate = self
+        BSRCentralManager.sharedInstance.delegate = self
         // ペリフェラル側はキャラクタリスティックを更新する
         BSRPeripheralManager.sharedManager().updateUsername()
         NSLog("Start with username: %@", BSRUserDefaults.username())
@@ -47,6 +48,7 @@ class SurechigaiTableViewController: UITableViewController ,BSREncounterDelegate
     // MARK: TableViewDataSource
     
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+        print(__FUNCTION__)
         // #warning Potentially incomplete method implementation.
         // Return the number of sections.
         return 1
@@ -54,11 +56,13 @@ class SurechigaiTableViewController: UITableViewController ,BSREncounterDelegate
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete method implementation.
+        print(__FUNCTION__)
         return self.items.count
     }
     
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        print(__FUNCTION__)
         let CellIdentifier : String = "Cell";
         let cell = tableView.dequeueReusableCellWithIdentifier(CellIdentifier, forIndexPath: indexPath)
         // var encounterDic : Dictionary = items[indexPath.row] as Dictionary

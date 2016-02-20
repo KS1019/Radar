@@ -17,17 +17,21 @@ class HomeViewController: UIViewController{
     //let logoutClass = Logout()
       override func viewDidLoad() {
         super.viewDidLoad()
+        print(__FUNCTION__)
         //logoutClass.addObserver(self, forKeyPath:"valueOfUserID" , options: .New , context: nil)
 
     }
     
     override func viewDidAppear(animated: Bool) {
+        print(__FUNCTION__)
         self.login()
     }
     override func viewWillDisappear(animated: Bool) {
+        print(__FUNCTION__)
         //self.removeObserver(self, forKeyPath: "valueOfUserID", context: nil)
     }
     func login (){
+        print(__FUNCTION__)
         //        let sessionStore = Twitter.sharedInstance().sessionStore
         //        let lastSession = sessionStore.session
         let userDefaultOfSession = NSUserDefaults.standardUserDefaults()
@@ -48,6 +52,7 @@ class HomeViewController: UIViewController{
     }
     
     override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
+        print(__FUNCTION__)
         print("observer is called")
         if userID == "---" {
             self.login()
@@ -55,6 +60,7 @@ class HomeViewController: UIViewController{
     }
     
     @IBAction func logout (){
+        print(__FUNCTION__)
         let userDefaultOfSession = NSUserDefaults.standardUserDefaults()
         //let userSession = NSKeyedUnarchiver.unarchiveObjectWithData(userDefaultOfSession.objectForKey("USERSESSION") as! NSData) as! TWTRSessionStore
         
@@ -65,14 +71,13 @@ class HomeViewController: UIViewController{
             let userName = ""
             self.label.text = "\(userName)"
             userID = "---"
-             let valueOfUserID : NSString = userID
+            let valueOfUserID : NSString = userID
             print("Logout is succesful -> \(valueOfUserID)")
             self.performSegueWithIdentifier("toLogin", sender: nil)
         }else{
-                print("Logout is failed")
-            }
-//        logoutClass.logout()
+            print("Logout is failed")
         }
+    }
     
 
 //    class Logout:HomeViewController {

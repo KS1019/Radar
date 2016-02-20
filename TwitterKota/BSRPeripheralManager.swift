@@ -22,6 +22,7 @@ class BSRPeripheralManager: NSObject, CBPeripheralManagerDelegate{
     var delegate : BSREncounterDelegate?
 
     override init() {
+        print(__FUNCTION__)
         // Encounter Read キャラクタリスティックの生成
         let properties: CBCharacteristicProperties = ([CBCharacteristicProperties.Read, CBCharacteristicProperties.Notify])
         var permissions: CBAttributePermissions = .Readable
@@ -38,17 +39,20 @@ class BSRPeripheralManager: NSObject, CBPeripheralManagerDelegate{
     }
     //Swift
     class func sharedManager() -> BSRPeripheralManager {
+        print(__FUNCTION__,__FILE__)
         var instance : BSRPeripheralManager!
         var token = dispatch_once_t()
         
         dispatch_once(&token, {
             instance = BSRPeripheralManager()
             instance.initInstance()
+            print("in \(__FUNCTION__)")
         })
         return instance;
     }
     
     func initInstance() {
+        print(__FUNCTION__)
         let options : NSDictionary = ["CBCentralManagerOptionShowPowerAlertKey" : true, "CBPeripheralManagerOptionRestoreIdentifierKey" : Constants.kRestoreIdentifierKey]
         
         self.peripheralManager = CBPeripheralManager.init(delegate: self, queue: nil, options: options as? [String : AnyObject])
@@ -56,12 +60,13 @@ class BSRPeripheralManager: NSObject, CBPeripheralManagerDelegate{
         self.characteristicUUIDRead = CBUUID(string: Constants.kCharacteristicUUIDEncounterRead)
         self.characteristicUUIDWrite = CBUUID(string: Constants.kCharacteristicUUIDEncounterWrite)
         
-        
+        self.publishService()
     }
     
     // MARK: Private
     
     func publishService() {
+        print(__FUNCTION__)
         let service: CBMutableService = CBMutableService(type: self.serviceUUID, primary: true)
         
         // Encounter Read キャラクタリスティックの生成
@@ -77,6 +82,7 @@ class BSRPeripheralManager: NSObject, CBPeripheralManagerDelegate{
     }
     
     func startAdvertising() {
+        print(__FUNCTION__)
         if self.peripheralManager.isAdvertising {
             return
         }
@@ -85,6 +91,7 @@ class BSRPeripheralManager: NSObject, CBPeripheralManagerDelegate{
     }
     
     func stopAdvertising() {
+        print(__FUNCTION__)
         if self.peripheralManager.isAdvertising {
             self.peripheralManager.stopAdvertising()
         }
@@ -92,6 +99,7 @@ class BSRPeripheralManager: NSObject, CBPeripheralManagerDelegate{
     
     // MARK: Public
     func updateUsername() {
+        print(__FUNCTION__)
         print("updateUsername")
         if self.characteristicRead.description.characters.count == 0 {
             print("Failed", terminator: "")
@@ -117,6 +125,7 @@ class BSRPeripheralManager: NSObject, CBPeripheralManagerDelegate{
     // MARK: CBPeripheralManagerDelegate
     
     func peripheralManagerDidUpdateState(peripheral: CBPeripheralManager) {
+        print(__FUNCTION__)
         print("Updated state:%ld", peripheral.state, terminator: "")
         switch peripheral.state {
         case .PoweredOn:
@@ -132,6 +141,7 @@ class BSRPeripheralManager: NSObject, CBPeripheralManagerDelegate{
     }
     
     func peripheralManager(peripheral: CBPeripheralManager, didAddService service: CBService, error: NSError?) {
+        print(__FUNCTION__)
         if error.debugDescription.characters.count == 0 {
             
         }else{
@@ -145,6 +155,7 @@ class BSRPeripheralManager: NSObject, CBPeripheralManagerDelegate{
     }
     
     func peripheralManagerDidStartAdvertising(peripheral: CBPeripheralManager, error: NSError?) {
+        print(__FUNCTION__)
         if error.debugDescription.characters.count == 0 {
             
         }else{
@@ -154,14 +165,17 @@ class BSRPeripheralManager: NSObject, CBPeripheralManagerDelegate{
     }
     
     func peripheralManager(peripheral: CBPeripheralManager, didReceiveReadRequest request: CBATTRequest) {
+        print("peripheralManager ->", __FUNCTION__)
         // CBCharacteristicのvalueをCBATTRequestのvalueにセット
         request.value = self.characteristicRead.value
         // リクエストに応答
         self.peripheralManager.respondToRequest(request, withResult: .Success)
+        print("request.value -> \(request.value)")
         
     }
     
     func peripheralManager(peripheral: CBPeripheralManager, didReceiveWriteRequests requests: [CBATTRequest]) {
+        print(__FUNCTION__)
         for aRequest: CBATTRequest in requests {
             NSLog("Requested value:%@ service uuid:%@ characteristic uuid:%@", aRequest.value!, aRequest.characteristic.service.UUID, aRequest.characteristic.UUID)
             // CBCharacteristicのvalueに、CBATTRequestのvalueをセット
@@ -180,14 +194,15 @@ class BSRPeripheralManager: NSObject, CBPeripheralManagerDelegate{
     }
     
     func peripheralManager(peripheral: CBPeripheralManager, central: CBCentral, didSubscribeToCharacteristic characteristic: CBCharacteristic) {
-        
+        print(__FUNCTION__)
     }
     
     func peripheralManager(peripheral: CBPeripheralManager, central: CBCentral, didUnsubscribeFromCharacteristic characteristic: CBCharacteristic) {
-        
+        print(__FUNCTION__)
     }
     
     func peripheralManagerIsReadyToUpdateSubscribers(peripheral: CBPeripheralManager) {
+        print(__FUNCTION__)
         print("peripheralManagerIsReadyToUpdateSubscribers")
     }
     

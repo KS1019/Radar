@@ -21,6 +21,7 @@ class BSRCentralManager: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
     var delegate: BSREncounterDelegate?
     
     override init(){
+        print(__FUNCTION__)
         centralManager = CBCentralManager()
         self.serviceUUID = CBUUID(string: Constants.kServiceUUIDEncounter)
         self.characteristicUUIDRead = CBUUID(string: Constants.kCharacteristicUUIDEncounterRead)
@@ -30,17 +31,26 @@ class BSRCentralManager: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
     }
     
     
-    class func sharedManager() -> BSRCentralManager {
-        print(__FUNCTION__)
-        var instance : BSRCentralManager!
-        var token = dispatch_once_t()
-        
-        dispatch_once(&token, {
-            instance = BSRCentralManager()
-            instance.initInstance()
-        })
-        return instance;
+    class var sharedInstance : BSRCentralManager{
+        struct Static {
+            static var instance : BSRCentralManager = BSRCentralManager()
+        }
+        Static.instance.initInstance()
+        return Static.instance
     }
+    
+    
+//    class func sharedManager() -> BSRCentralManager {
+//        print(__FUNCTION__)
+//        var instance : BSRCentralManager!
+//        var token = dispatch_once_t()
+//        
+//        dispatch_once(&token, {
+//            instance = BSRCentralManager()
+//            instance.initInstance()
+//        })
+//        return instance;
+//    }
     
     func initInstance() {
         print(__FUNCTION__)
@@ -58,12 +68,21 @@ class BSRCentralManager: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
     
     func writeData(data: NSData, peripheral: CBPeripheral) {
         print(__FUNCTION__)
-        for aService : CBService in peripheral.services! {
-            for aCharacteristic : CBCharacteristic in aService.characteristics! {
-                if (aCharacteristic.UUID .isEqual(self.characteristicUUIDWrite)){
-                    // ペリフェラルに情報を送る（Writeする）
-                    peripheral.writeValue(data, forCharacteristic: aCharacteristic, type: CBCharacteristicWriteType.WithResponse)
-                    break
+        if peripheral.services != nil {
+            print(peripheral.services)
+            for aService : CBService in peripheral.services! {
+                if aService.characteristics != nil {
+                    print(aService.characteristics)
+                    for aCharacteristic : CBCharacteristic in aService.characteristics! {
+                        print(aCharacteristic)
+                        print(aCharacteristic.UUID)
+                        if (aCharacteristic.UUID == self.characteristicUUIDWrite){
+                            // ペリフェラルに情報を送る（Writeする）
+                            print(aCharacteristic.UUID)
+                            peripheral.writeValue(data, forCharacteristic: aCharacteristic, type: CBCharacteristicWriteType.WithResponse)
+                            break
+                        }
+                    }
                 }
             }
         }
@@ -100,6 +119,7 @@ class BSRCentralManager: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
     }
     
     func centralManager(central: CBCentralManager, didConnectPeripheral peripheral: CBPeripheral) {
+        print(__FUNCTION__)
         print("peripheral:\(peripheral)")
         
         peripheral.delegate = self
@@ -107,6 +127,7 @@ class BSRCentralManager: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
     }
     
     func centralManager(central: CBCentralManager, didFailToConnectPeripheral peripheral: CBPeripheral, error: NSError?) {
+        print(__FUNCTION__)
         
         if (error != nil) {
             print("error:\(error)")
@@ -116,6 +137,7 @@ class BSRCentralManager: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
     }
     
     func centralManager(central: CBCentralManager, didDisconnectPeripheral peripheral: CBPeripheral, error: NSError?) {
+        print(__FUNCTION__)
         
         if (error != nil) {
             print("error:\(error)")
@@ -127,7 +149,7 @@ class BSRCentralManager: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
     
     // サービス発見時に呼ばれる
     func peripheral(peripheral: CBPeripheral, didDiscoverServices error: NSError?) {
-        
+        print(__FUNCTION__)
         if (error != nil) {
             print("error:\(error)")
         }
@@ -157,6 +179,7 @@ class BSRCentralManager: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
     
     // キャラクタリスティック発見時に呼ばれる
     func peripheral(peripheral: CBPeripheral, didDiscoverCharacteristicsForService service: CBService, error: NSError?) {
+        print(__FUNCTION__)
         
         if (error != nil) {
             print("error:\(error)")
@@ -170,6 +193,7 @@ class BSRCentralManager: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
         for aCharacteristic: CBCharacteristic in service.characteristics! {
             if aCharacteristic.UUID.isEqual(self.characteristicUUIDRead) {
                 // 現在値をRead
+                print("現在値をRead")
                 peripheral.readValueForCharacteristic(aCharacteristic)
             }
         }
@@ -178,7 +202,7 @@ class BSRCentralManager: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
     }
     
     func peripheral(peripheral: CBPeripheral, didUpdateValueForCharacteristic characteristic: CBCharacteristic, error: NSError?) {
-        
+        print(__FUNCTION__)
         if (error != nil) {
             print("error:\(error)")
             return
@@ -196,7 +220,10 @@ class BSRCentralManager: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
         if delegate?.didEncounterUserWithName(username) == nil {
             print("didEncounterUserWithName(username) is nil")
         }
+        print("self.writeData")
         // 自分のユーザー名をペリフェラル側に伝える
+        print("peripheral -> \(peripheral)")
+
         let data: NSData = myUsername.dataUsingEncoding(NSUTF8StringEncoding)!
         self.writeData(data, peripheral: peripheral)
         //        }
@@ -207,6 +234,7 @@ class BSRCentralManager: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
     }
     
     func peripheral(peripheral: CBPeripheral, didWriteValueForCharacteristic characteristic: CBCharacteristic, error: NSError?) {
+        print(__FUNCTION__)
         if (error != nil) {
             print("error:\(error)")
         }
@@ -217,6 +245,7 @@ class BSRCentralManager: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
     
     // アプリケーション復元時に呼ばれる
     func centralManager(central: CBCentralManager, willRestoreState dict: [String : AnyObject]) {
+        print(__FUNCTION__)
         // 復元された、接続を試みている、あるいは接続済みのペリフェラル
         let peripherals = dict[CBCentralManagerRestoredStatePeripheralsKey]
         

@@ -13,6 +13,7 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        print(__FUNCTION__)
         let loginButton = TWTRLogInButton(logInCompletion: {
             session, error in
             let userSession = session
