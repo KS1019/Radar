@@ -10,6 +10,7 @@ import UIKit
 
 class SurechigaiTableViewController: UITableViewController ,BSREncounterDelegate{
     var items = []
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         print(__FUNCTION__)
@@ -40,7 +41,8 @@ class SurechigaiTableViewController: UITableViewController ,BSREncounterDelegate
         // セントラル側は初期化＆スキャン開始する
         BSRCentralManager.sharedInstance.delegate = self
         // ペリフェラル側はキャラクタリスティックを更新する
-        BSRPeripheralManager.sharedManager().updateUsername()
+//        BSRPeripheralManager.sharedManager().updateUsername()
+        BSRPeripheralManager.sharedInstance.updateUsername()
         NSLog("Start with username: %@", BSRUserDefaults.username())
         
     }
@@ -77,8 +79,8 @@ class SurechigaiTableViewController: UITableViewController ,BSREncounterDelegate
     
     // MARK: BSREncounterDelegate
     func didEncounterUserWithName(username: String) {
-        print("didEncounterUserWithName")
-        print(__FUNCTION__)
+        //print("didEncounterUserWithName")
+        print(__FUNCTION__,"username\(username)")
         dispatch_async(dispatch_get_main_queue(), {() -> Void in
             // アラート表示
             self.alertWithUsername(username)
@@ -89,6 +91,7 @@ class SurechigaiTableViewController: UITableViewController ,BSREncounterDelegate
             self.items = BSRUserDefaults.encounters()
             self.tableView.reloadData()
         })
+        
     }
     
     // MARK: Private
@@ -108,6 +111,10 @@ class SurechigaiTableViewController: UITableViewController ,BSREncounterDelegate
             print(msg)
         }
     }
+    
+
+    
+
     
     /*
     // Override to support conditional editing of the table view.

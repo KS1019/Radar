@@ -51,6 +51,14 @@ class BSRPeripheralManager: NSObject, CBPeripheralManagerDelegate{
         return instance;
     }
     
+    class var sharedInstance : BSRPeripheralManager{
+        struct Static {
+            static var instance : BSRPeripheralManager = BSRPeripheralManager()
+        }
+        Static.instance.initInstance()
+        return Static.instance
+    }
+    
     func initInstance() {
         print(__FUNCTION__)
         let options : NSDictionary = ["CBCentralManagerOptionShowPowerAlertKey" : true, "CBPeripheralManagerOptionRestoreIdentifierKey" : Constants.kRestoreIdentifierKey]
@@ -181,8 +189,13 @@ class BSRPeripheralManager: NSObject, CBPeripheralManagerDelegate{
             // CBCharacteristicのvalueに、CBATTRequestのvalueをセット
             self.characteristicWrite.value = aRequest.value
             // ViewControllerに移譲
+            //let name = "\(NSString(data: aRequest.value!, encoding: NSUTF8StringEncoding)! as String)さんとすれ違いました。"
             let name = NSString(data: aRequest.value!, encoding: NSUTF8StringEncoding)! as String
+            // すれちがいリストに追加
+            let date = NSDate()
+            BSRUserDefaults.addEncounterWithName(name)(date:date)
             self.delegate?.didEncounterUserWithName(name)
+            print("name -> ",name)
             if delegate?.didEncounterUserWithName(name) == nil {
                 print("didEncounterUserWithName(name) is nil")
             }

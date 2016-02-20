@@ -209,6 +209,7 @@ class BSRCentralManager: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
         }
         
         // キャラクタリスティックの値から相手のユーザー名を取得
+        //let username: String = "\(String(data: characteristic.value!, encoding: NSUTF8StringEncoding)!)さんとすれ違いました。"
         let username: String = String(data: characteristic.value!, encoding: NSUTF8StringEncoding)!
         NSLog("peripheral:%@, username:%@", peripheral, username)
         // 自分のユーザー名をNSUserDefaultsから取り出す
@@ -216,11 +217,14 @@ class BSRCentralManager: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
         // 相手のユーザー名が入っていて、自分のユーザー名も入力済みのときのみすれちがい処理を行う
         //        if /*username.characters.count !=  nil && */myUsername.characters.count != nil {
         // 結果表示処理をViewControllerに移譲
+        // すれちがいリストに追加
+        let date = NSDate()
+        BSRUserDefaults.addEncounterWithName(username)(date:date)
         self.delegate?.didEncounterUserWithName(username)
         if delegate?.didEncounterUserWithName(username) == nil {
-            print("didEncounterUserWithName(username) is nil")
+            print("didEncounterUserWithName\(username) is nil")
         }
-        print("self.writeData")
+        print("self.writeData",username)
         // 自分のユーザー名をペリフェラル側に伝える
         print("peripheral -> \(peripheral)")
 
