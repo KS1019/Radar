@@ -175,7 +175,11 @@ class BSRPeripheralManager: NSObject, CBPeripheralManagerDelegate{
     func peripheralManager(peripheral: CBPeripheralManager, didReceiveReadRequest request: CBATTRequest) {
         print("peripheralManager ->", __FUNCTION__)
         // CBCharacteristicのvalueをCBATTRequestのvalueにセット
-        request.value = self.characteristicRead.value
+        let data: NSData = BSRUserDefaults.username().dataUsingEncoding(NSUTF8StringEncoding)!
+        // valueを更新
+        self.characteristicRead.value = data
+        
+        request.value = self.characteristicRead.value//どこでリセットされてるかはあとで考える
         // リクエストに応答
         self.peripheralManager.respondToRequest(request, withResult: .Success)
         print("request.value -> \(request.value)")
@@ -189,8 +193,12 @@ class BSRPeripheralManager: NSObject, CBPeripheralManagerDelegate{
             // CBCharacteristicのvalueに、CBATTRequestのvalueをセット
             self.characteristicWrite.value = aRequest.value
             // ViewControllerに移譲
-            //let name = "\(NSString(data: aRequest.value!, encoding: NSUTF8StringEncoding)! as String)さんとすれ違いました。"
-            let name = NSString(data: aRequest.value!, encoding: NSUTF8StringEncoding)! as String
+            let now = NSDate()
+            let formatter = NSDateFormatter()
+            formatter.dateFormat = "yyyy/MM/dd/ hh:mm"
+            let string = formatter.stringFromDate(now)
+            let name = "P\(NSString(data: aRequest.value!, encoding: NSUTF8StringEncoding)! as String)さんとすれ違いました。\(string)"
+            //let name = NSString(data: aRequest.value!, encoding: NSUTF8StringEncoding)! as String
             // すれちがいリストに追加
             let date = NSDate()
             BSRUserDefaults.addEncounterWithName(name)(date:date)

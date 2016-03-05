@@ -41,8 +41,8 @@ class SurechigaiTableViewController: UITableViewController ,BSREncounterDelegate
         // セントラル側は初期化＆スキャン開始する
         BSRCentralManager.sharedInstance.delegate = self
         // ペリフェラル側はキャラクタリスティックを更新する
-//        BSRPeripheralManager.sharedManager().updateUsername()
-        BSRPeripheralManager.sharedInstance.updateUsername()
+        BSRPeripheralManager.sharedManager().updateUsername()
+        //BSRPeripheralManager.sharedInstance.updateUsername()
         NSLog("Start with username: %@", BSRUserDefaults.username())
         
     }
@@ -81,7 +81,7 @@ class SurechigaiTableViewController: UITableViewController ,BSREncounterDelegate
     func didEncounterUserWithName(username: String) {
         //print("didEncounterUserWithName")
         print(__FUNCTION__,"username\(username)")
-        dispatch_async(dispatch_get_main_queue(), {() -> Void in
+        //dispatch_async(dispatch_get_main_queue(), {() -> Void in
             // アラート表示
             self.alertWithUsername(username)
             print("\(username)とすれ違いました。")
@@ -90,7 +90,7 @@ class SurechigaiTableViewController: UITableViewController ,BSREncounterDelegate
             BSRUserDefaults.addEncounterWithName(username)(date:date)
             self.items = BSRUserDefaults.encounters()
             self.tableView.reloadData()
-        })
+        //})
         
     }
     
@@ -98,7 +98,7 @@ class SurechigaiTableViewController: UITableViewController ,BSREncounterDelegate
     
     func alertWithUsername(username: String) {
         print(__FUNCTION__)
-        let msg: String = "\(username)とすれ違いました！"
+        let msg: String = "ALERT\(username)とすれ違いました！"
         // バックグラウンド時はローカル通知
         if UIApplication.sharedApplication().applicationState != .Active {
             let notification: UILocalNotification = UILocalNotification()

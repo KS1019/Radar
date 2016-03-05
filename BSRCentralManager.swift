@@ -65,7 +65,6 @@ class BSRCentralManager: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
     }
     
     // MARK: Private
-    
     func writeData(data: NSData, peripheral: CBPeripheral) {
         print(__FUNCTION__)
         if peripheral.services != nil {
@@ -77,7 +76,7 @@ class BSRCentralManager: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
                         print(aCharacteristic)
                         print(aCharacteristic.UUID)
                         if (aCharacteristic.UUID == self.characteristicUUIDWrite){
-                            // ペリフェラルに情報を送る（Writeする）
+                            //ペリフェラルに情報を送る(Writeする)
                             print(aCharacteristic.UUID)
                             peripheral.writeValue(data, forCharacteristic: aCharacteristic, type: CBCharacteristicWriteType.WithResponse)
                             break
@@ -106,8 +105,10 @@ class BSRCentralManager: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
     
     func centralManager(central: CBCentralManager, didDiscoverPeripheral peripheral: CBPeripheral, advertisementData: [String : AnyObject], RSSI: NSNumber) {
         print(__FUNCTION__)
-        print("\nperipheral:\(peripheral) \nadvertisementData:\(advertisementData) \nRSSI\(RSSI)")
-        
+        //print("\nperipheral:\(peripheral) \nadvertisementData:\(advertisementData) \nRSSI\(RSSI)")
+        if peripheral.name != nil {
+            print("\n======\n\n名前 : \(peripheral.name!)\nUUID : \(peripheral.identifier)\n\n======\n")
+        }
         // 配列に保持
         if !self.peripherals.containsObject(peripheral) {
             self.peripherals.addObject(peripheral)
@@ -120,7 +121,7 @@ class BSRCentralManager: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
     
     func centralManager(central: CBCentralManager, didConnectPeripheral peripheral: CBPeripheral) {
         print(__FUNCTION__)
-        print("peripheral:\(peripheral)")
+        //print("peripheral:\(peripheral)")
         
         peripheral.delegate = self
         peripheral.discoverServices(nil)
@@ -149,7 +150,7 @@ class BSRCentralManager: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
     
     // サービス発見時に呼ばれる
     func peripheral(peripheral: CBPeripheral, didDiscoverServices error: NSError?) {
-        print(__FUNCTION__)
+        print("サービス発見",__FUNCTION__)
         if (error != nil) {
             print("error:\(error)")
         }
@@ -165,7 +166,9 @@ class BSRCentralManager: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
         var hasTargetService = false
         for aService: CBService in peripheral.services! {
             // 目的のサービスを提供していれば、キャラクタリスティック探索を開始する
+            print("目的のサービスを提供していれば、キャラクタリスティック探索を開始する")
             if aService.UUID.isEqual(self.serviceUUID) {
+                print("===\nTarget is found\n===")
                 peripheral.discoverCharacteristics(nil, forService: aService)
                 hasTargetService = true
             }
@@ -179,7 +182,7 @@ class BSRCentralManager: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
     
     // キャラクタリスティック発見時に呼ばれる
     func peripheral(peripheral: CBPeripheral, didDiscoverCharacteristicsForService service: CBService, error: NSError?) {
-        print(__FUNCTION__)
+        print("キャラクタリスティック発見",__FUNCTION__)
         
         if (error != nil) {
             print("error:\(error)")
@@ -207,10 +210,14 @@ class BSRCentralManager: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
             print("error:\(error)")
             return
         }
-        
+        print("キャラクタリスティク\(characteristic, characteristic.value)")
         // キャラクタリスティックの値から相手のユーザー名を取得
-        //let username: String = "\(String(data: characteristic.value!, encoding: NSUTF8StringEncoding)!)さんとすれ違いました。"
-        let username: String = String(data: characteristic.value!, encoding: NSUTF8StringEncoding)!
+        let now = NSDate()
+        let formatter = NSDateFormatter()
+        formatter.dateFormat = "yyyy/MM/dd/ hh:mm"
+        let string = formatter.stringFromDate(now)
+        let username: String = "C\(String(data: characteristic.value!, encoding: NSUTF8StringEncoding)!)さんとすれ違いました。\(string)"
+        //let username: String = String(data: characteristic.value!, encoding: NSUTF8StringEncoding)!
         NSLog("peripheral:%@, username:%@", peripheral, username)
         // 自分のユーザー名をNSUserDefaultsから取り出す
         let myUsername: String = BSRUserDefaults.username()
