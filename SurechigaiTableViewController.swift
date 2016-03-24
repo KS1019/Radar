@@ -41,8 +41,8 @@ class SurechigaiTableViewController: UITableViewController ,BSREncounterDelegate
         // セントラル側は初期化＆スキャン開始する
         BSRCentralManager.sharedInstance.delegate = self
         // ペリフェラル側はキャラクタリスティックを更新する
-        BSRPeripheralManager.sharedManager().updateUsername()
-        //BSRPeripheralManager.sharedInstance.updateUsername()
+        //BSRPeripheralManager.sharedManager().updateUsername()
+        BSRPeripheralManager.sharedInstance.updateUsername()
         NSLog("Start with username: %@", BSRUserDefaults.username())
         
     }
